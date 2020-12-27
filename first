@@ -1,0 +1,88 @@
+'''
+Author- Navindu Sandumina
+INPUT-OSDREB_sequences.FASTA
+OUTPUT-
+'''
+class Sequence:
+    gene_ID = ''
+    gene_name = ''
+    sequence_type = ''
+    sequence_length = 0
+    sequence_count = 0
+    species_name = ''
+    subspecies_name = ''
+
+    def __init__(self,gene_ID,gene_name,sequence_type,sequence_length,sequence_count,species_name,subspecies_name):
+        self.gene_ID=gene_ID
+        self.gene_name=gene_name
+        self.sequence_type=sequence_type
+        self.sequence_length=sequence_length
+        self.sequence_count=sequence_count
+        self.species_name=species_name
+        self.subspecies_name=subspecies_name
+
+    @staticmethod
+    def fasta_Split():
+        fastaFileName = input("Fasta file name")
+        sequences = {}
+        with open(fastaFileName, 'r') as sequence:
+            gene_name = ''
+            seq=''
+            for line in sequence:
+                if line != '\n':
+                    line = line.strip()
+                    if '>' in line :
+                        gene_name= line.strip().split('-')[0]
+                        list = line.strip().split('-')[0:3]
+                        seq=''
+                    if '>' not in line:
+                        seq=seq+line
+                        sequences[gene_name]=[list,seq]
+        print(sequences)
+
+
+
+        return (sequences)
+
+    @staticmethod
+    def get_Seq_Type():
+        fastaFileName = input("enter Fasta file name for search sequence type")
+        with open(fastaFileName, 'r') as sequence:
+            sequences={}
+            seq=''
+            for line in sequence:
+                if line != '\n':
+                    line = line.strip()
+                    if '>' in line:
+                        gene_name = line.strip().split('-')[0]
+                        seq=''
+                    if '>' not in line:
+                        seq = seq + line
+                sequences[gene_name] = [seq]
+            for i in sequences:
+                sequence = sequences[i]
+                if 'A' in sequence and 'T' in sequence and 'C' in sequence and 'G' in sequence and 'M' not in sequence:
+
+                    print(i + "is DNA sequence")
+                if 'A' in sequence and 'U' in sequence and 'C' in sequence and 'G' in sequence and 'M' not in sequence:
+
+                    print(i + " is mRNA sequence")
+                if 'M' in sequence:
+
+                    print(i + " is protein sequence")
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    p1=Sequence
+    p1.fasta_Split()
+    p1.get_Seq_Type()
